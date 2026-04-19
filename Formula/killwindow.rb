@@ -1,19 +1,26 @@
 class Killwindow < Formula
   desc "macOS xkill: click a window to SIGTERM/SIGKILL its owning process"
   homepage "https://github.com/cristim/killwindow"
-  url "https://github.com/cristim/killwindow/releases/download/v0.2.6/killwindow-0.2.6-macos.tar.gz"
-  sha256 "bbe7c2ab6102f47a9c470e312b70f99415347b014ee31c1d2dbaaf1bcf7fbe07"
+  url "https://github.com/cristim/killwindow/releases/download/v0.3.0/killwindow-0.3.0-macos.tar.gz"
+  sha256 "421d1266e7770a4efb683ff2265f361fd6097910c9c3c3e4794a6ddf6befe232"
   license "MIT"
-  version "0.2.6"
+  version "0.3.0"
 
   depends_on :macos
 
   def install
-    bin.install "killwindow"
+    # Tarball contains a .app bundle at the top level.
+    # Install it under the keg prefix and expose the inner
+    # binary as \`bin/killwindow\`. Running via the bundle
+    # means macOS TCC tracks us by CFBundleIdentifier
+    # (com.cristim.killwindow) so Accessibility / Input
+    # Monitoring grants survive brew upgrades.
+    prefix.install "killwindow.app"
+    bin.install_symlink prefix/"killwindow.app/Contents/MacOS/killwindow"
   end
 
   service do
-    run [opt_bin/"killwindow", "daemon"]
+    run [opt_prefix/"killwindow.app/Contents/MacOS/killwindow", "daemon"]
     keep_alive true
     log_path var/"log/killwindow.log"
     error_log_path var/"log/killwindow.log"
@@ -30,9 +37,14 @@ class Killwindow < Formula
       Background hotkey (default ⌃⌥⌘K, press anywhere):
         brew services start killwindow
 
-      Grant Accessibility permission (required so killwindow can
-      capture your next click) and optionally change the hotkey:
-        killwindow setup
+      On first start the daemon registers killwindow with
+      System Settings → Privacy & Security. Toggle it on in
+      BOTH of these panes:
+        • Accessibility    — to consume clicks
+        • Input Monitoring — to listen to clicks
+      Then: brew services restart killwindow
+
+      Change the hotkey:
         killwindow setup --hotkey 'ctrl+opt+cmd+k'
         brew services restart killwindow
     CAVEATS
