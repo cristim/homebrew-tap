@@ -1,20 +1,17 @@
 class Killwindow < Formula
   desc "macOS xkill: click a window to SIGTERM/SIGKILL its owning process"
   homepage "https://github.com/cristim/killwindow"
-  url "https://github.com/cristim/killwindow/releases/download/v0.3.0/killwindow-0.3.0-macos.tar.gz"
-  sha256 "421d1266e7770a4efb683ff2265f361fd6097910c9c3c3e4794a6ddf6befe232"
+  url "https://github.com/cristim/killwindow/releases/download/v0.3.1/killwindow-0.3.1-macos.tar.gz"
+  sha256 "d020cddce5c9e3a781bd2b52b4428dc3cf3fe1b909d4535e9c8adcb194026138"
   license "MIT"
-  version "0.3.0"
+  version "0.3.1"
 
   depends_on :macos
 
   def install
-    # Tarball contains a .app bundle at the top level.
-    # Install it under the keg prefix and expose the inner
-    # binary as \`bin/killwindow\`. Running via the bundle
-    # means macOS TCC tracks us by CFBundleIdentifier
-    # (com.cristim.killwindow) so Accessibility / Input
-    # Monitoring grants survive brew upgrades.
+    # Tarball stages a killwindow-<version>/ directory whose
+    # only child is killwindow.app. Homebrew auto-cd's into
+    # that wrapper, so killwindow.app is in CWD.
     prefix.install "killwindow.app"
     bin.install_symlink prefix/"killwindow.app/Contents/MacOS/killwindow"
   end
