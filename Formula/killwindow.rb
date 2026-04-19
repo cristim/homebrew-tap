@@ -1,10 +1,10 @@
 class Killwindow < Formula
   desc "macOS xkill: click a window to SIGTERM/SIGKILL its owning process"
   homepage "https://github.com/cristim/killwindow"
-  url "https://github.com/cristim/killwindow/releases/download/v0.3.1/killwindow-0.3.1-macos.tar.gz"
-  sha256 "d020cddce5c9e3a781bd2b52b4428dc3cf3fe1b909d4535e9c8adcb194026138"
+  url "https://github.com/cristim/killwindow/releases/download/v0.3.2/killwindow-0.3.2-macos.tar.gz"
+  sha256 "1b48ce0df339bda9124d25d3b7be03e683f577c76cf87c9124ba17cfc25b738a"
   license "MIT"
-  version "0.3.1"
+  version "0.3.2"
 
   depends_on :macos
 
