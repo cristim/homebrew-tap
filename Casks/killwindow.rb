@@ -1,6 +1,6 @@
 cask "killwindow" do
-  version "0.4.1"
-  sha256 "e842c65e669a1fb3b2c47f5787b90f8d65b89041388cf4166a9003fee7f32726"
+  version "0.4.2"
+  sha256 "987f501c108ab62e09aee5110ca1f144274fb3d93be16a19a7f00c43e3cf7b8b"
 
   url "https://github.com/cristim/killwindow/releases/download/v#{version}/killwindow-#{version}-macos.tar.gz"
   name "killwindow"
@@ -9,6 +9,14 @@ cask "killwindow" do
 
   app "killwindow.app"
   binary "#{appdir}/killwindow.app/Contents/MacOS/killwindow"
+
+  # Ad-hoc signed, not notarised — strip the quarantine xattr so
+  # Gatekeeper doesn't block first launch with the "cannot verify
+  # this app is free of malware" dialog.
+  preflight do
+    system_command "/usr/bin/xattr",
+                   args: ["-cr", staged_path/"killwindow.app"]
+  end
 
   uninstall launchctl: "com.cristim.killwindow"
 
