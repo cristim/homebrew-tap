@@ -1,6 +1,6 @@
 cask "killwindow" do
-  version "0.4.2"
-  sha256 "987f501c108ab62e09aee5110ca1f144274fb3d93be16a19a7f00c43e3cf7b8b"
+  version "0.4.3"
+  sha256 "34afb08f1ad1a45b4ada1397f765e00a794d5c8a62d95d5d81bb3ff1c3eaf4a2"
 
   url "https://github.com/cristim/killwindow/releases/download/v#{version}/killwindow-#{version}-macos.tar.gz"
   name "killwindow"
